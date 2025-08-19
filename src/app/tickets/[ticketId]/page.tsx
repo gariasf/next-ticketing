@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Placeholder } from "@/components/placeholder";
 import { Button } from "@/components/ui/button";
 import { initialTickts } from "@/data";
+import { TicketItem } from "@/features/ticket/components/ticket-item";
 import { ticketsPath } from "@/paths";
 
 type TicketPageProps = {
@@ -31,9 +32,8 @@ export default async function TicketPage({ params }: TicketPageProps) {
   }
 
   return (
-    <div>
-      <h2>Ticket {ticket.title}</h2>
-      <p>{ticket.content}</p>
+    <div className="flex justify-center">
+     <TicketItem ticket={ticket} isDetail={true} />
     </div>
   );
 }
