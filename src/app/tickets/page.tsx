@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Heading } from '@/components/heading';
+import { Spinner } from '@/components/spinner';
 import { TicketList } from '@/features/ticket/components/ticket-list';
 
 export default function TicketsPage() {
@@ -9,7 +10,7 @@ export default function TicketsPage() {
         title="TicketsPage"
         description="All your tickets in one place"
       />
-      <Suspense>
+      <Suspense fallback={<Spinner />}>
         <TicketList />
       </Suspense>
     </div>
