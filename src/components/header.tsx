@@ -1,6 +1,7 @@
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 import { homePath, ticketsPath } from "@/paths";
+import { ThemeSwitcher } from "./theme/theme-switcher";
 import { Button } from "./ui/button";
 
 export function Header() {
@@ -13,7 +14,7 @@ export function Header() {
         w-full flex py-2.5 px-5 justify-between
       "
     >
-      <div>
+      <div className="flex align-items gap-x-2">
         <Button asChild variant="link">
           <Link href={homePath()}
         >
@@ -21,7 +22,8 @@ export function Header() {
           <h1 className="text-lg font-semibold">TicketBounty</h1></Link>
         </Button>
       </div>
-      <div>
+      <div className="flex align-items gap-x-2">
+        <ThemeSwitcher />
         <Button asChild variant="outline">
           <Link href={ticketsPath()}>Tickets</Link>
         </Button>
