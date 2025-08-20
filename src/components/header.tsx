@@ -24,7 +24,7 @@ export function Header() {
       </div>
       <div className="flex align-items gap-x-2">
         <ThemeSwitcher />
-        <Button asChild variant="outline">
+        <Button asChild>
           <Link href={ticketsPath()}>Tickets</Link>
         </Button>
       </div>
