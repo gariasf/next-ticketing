@@ -9,9 +9,11 @@
     "lint": "next lint",
     "lint-fix": "next lint --fix",
     "prepare": "husky",
-    "type": "tsc --noEmit"
+    "type": "tsc --noEmit",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/client": "^6.14.0",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
@@ -38,6 +40,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
+    "prisma": "^6.14.0",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
