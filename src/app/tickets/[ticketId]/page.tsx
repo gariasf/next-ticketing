@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { Placeholder } from "@/components/placeholder";
-import { Button } from "@/components/ui/button";
-import { initialTickts } from "@/data";
-import { TicketItem } from "@/features/ticket/components/ticket-item";
-import { ticketsPath } from "@/paths";
+import Link from 'next/link';
+import { Placeholder } from '@/components/placeholder';
+import { Button } from '@/components/ui/button';
+import { initialTickts } from '@/data';
+import { TicketItem } from '@/features/ticket/components/ticket-item';
+import { ticketsPath } from '@/paths';
 
 type TicketPageProps = {
   params: Promise<{
@@ -18,22 +18,22 @@ export default async function TicketPage({ params }: TicketPageProps) {
 
   if (!ticket) {
     return (
-     <div className="flex flex-1 justify-center">
-       <Placeholder
-         label="Ticket not found"
-         button={
-           <Button asChild variant="outline">
-             <Link href={ticketsPath()}>Go to Tickets</Link>
-           </Button>
-         }
-       />
-     </div>
+      <div className="flex flex-1 justify-center">
+        <Placeholder
+          label="Ticket not found"
+          button={
+            <Button asChild variant="outline">
+              <Link href={ticketsPath()}>Go to Tickets</Link>
+            </Button>
+          }
+        />
+      </div>
     );
   }
 
   return (
     <div className="flex justify-center">
-     <TicketItem ticket={ticket} isDetail={true} />
+      <TicketItem ticket={ticket} isDetail={true} />
     </div>
   );
 }

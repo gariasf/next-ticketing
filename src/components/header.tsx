@@ -1,8 +1,8 @@
-import { LucideKanban } from "lucide-react";
-import Link from "next/link";
-import { homePath, ticketsPath } from "@/paths";
-import { ThemeSwitcher } from "./theme/theme-switcher";
-import { Button } from "./ui/button";
+import { LucideKanban } from 'lucide-react';
+import Link from 'next/link';
+import { homePath, ticketsPath } from '@/paths';
+import { ThemeSwitcher } from './theme/theme-switcher';
+import { Button } from './ui/button';
 
 export function Header() {
   return (
@@ -16,10 +16,10 @@ export function Header() {
     >
       <div className="flex align-items gap-x-2">
         <Button asChild variant="link">
-          <Link href={homePath()}
-        >
-          <LucideKanban />
-          <h1 className="text-lg font-semibold">TicketBounty</h1></Link>
+          <Link href={homePath()}>
+            <LucideKanban />
+            <h1 className="text-lg font-semibold">TicketBounty</h1>
+          </Link>
         </Button>
       </div>
       <div className="flex align-items gap-x-2">
@@ -29,5 +29,5 @@ export function Header() {
         </Button>
       </div>
     </nav>
-  )
+  );
 }
