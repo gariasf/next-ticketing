@@ -1,3 +1,4 @@
+import { Ticket } from '@prisma/client';
 import clsx from 'clsx';
 import { LucideSquareArrowOutUpRight } from 'lucide-react';
 import Link from 'next/link';
@@ -5,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ticketPathFor } from '@/paths';
 import { TICKET_ICONS } from '../constants';
-import { Ticket } from '../types';
 
 interface TicketItemProps {
   ticket: Ticket;
@@ -24,8 +24,8 @@ export function TicketItem({ ticket, isDetail }: TicketItemProps) {
   return (
     <div
       className={clsx('w-full flex gap-2', {
-        'max-w-[580px]': !isDetail,
-        'max-w-[480px]': !!isDetail,
+        'max-w-[600px]': !!isDetail,
+        'max-w-[480px]': !isDetail,
       })}
     >
       <Card key={ticket.id} className="w-full">
