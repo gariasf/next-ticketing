@@ -1,5 +1,3 @@
-'use client';
-
 import { Ticket } from '@prisma/client';
 import clsx from 'clsx';
 import { LucideSquareArrowOutUpRight, LucideTrash } from 'lucide-react';
@@ -16,10 +14,6 @@ interface TicketItemProps {
 }
 
 export function TicketItem({ ticket, isDetail }: TicketItemProps) {
-  async function handleDeleteTicket() {
-    await deleteTicket(ticket.id);
-  }
-
   const detailButton = (
     <Button asChild size="icon" variant="outline">
       <Link href={ticketPathFor(ticket.id)}>
@@ -29,9 +23,11 @@ export function TicketItem({ ticket, isDetail }: TicketItemProps) {
   );
 
   const deleteButton = (
-    <Button size="icon" variant="destructive" onClick={handleDeleteTicket}>
-      <LucideTrash />
-    </Button>
+    <form action={deleteTicket.bind(null, ticket.id)}>
+      <Button size="icon" variant="destructive">
+        <LucideTrash />
+      </Button>
+    </form>
   );
 
   return (
