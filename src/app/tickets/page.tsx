@@ -8,10 +8,7 @@ import { TicketUpsertForm } from '@/features/ticket/components/ticket-upsert-for
 export default function TicketsPage() {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
-      <Heading
-        title="TicketsPage"
-        description="All your tickets in one place"
-      />
+      <Heading title="Tickets" description="All your tickets in one place" />
 
       <CardCompact
         className="w-full max-w-[480px] self-center"
