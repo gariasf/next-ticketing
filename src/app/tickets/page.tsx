@@ -1,6 +1,14 @@
 import { Suspense } from 'react';
 import { Heading } from '@/components/heading';
 import { Spinner } from '@/components/spinner';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { TicketCreateForm } from '@/features/ticket/components/ticket-create-form';
 import { TicketList } from '@/features/ticket/components/ticket-list';
 
 export default function TicketsPage() {
@@ -10,6 +18,18 @@ export default function TicketsPage() {
         title="TicketsPage"
         description="All your tickets in one place"
       />
+
+      <Card className="w-full max-w-[480px] self-center">
+        <CardHeader>
+          <CardTitle>Create Ticket</CardTitle>
+          <CardDescription>
+            Create a new ticket to track your progress.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <TicketCreateForm />
+        </CardContent>
+      </Card>
       <Suspense fallback={<Spinner />}>
         <TicketList />
       </Suspense>
