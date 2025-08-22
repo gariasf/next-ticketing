@@ -6,6 +6,7 @@ import z from 'zod';
 import {
   ActionState,
   fromErrorToActionState,
+  toActionState,
 } from '@/components/form/utils/to-action-state';
 import { prisma } from '@/lib/prisma';
 import { ticketsPath } from '@/paths';
@@ -43,5 +44,5 @@ export async function upsertTicket(
     redirect(ticketsPath());
   }
 
-  return { message: 'Ticket created', fieldErrors: {} };
+  return toActionState('SUCCESS', 'Ticket created');
 }
