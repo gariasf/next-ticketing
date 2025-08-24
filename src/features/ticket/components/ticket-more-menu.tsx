@@ -29,7 +29,13 @@ export function TicketMoreMenu({ ticket, trigger }: TicketMoreMenuProps) {
   );
 
   async function handleUpdateTicketStatus(status: string) {
-    const result = await updateTicketStatus(ticket.id, status as TicketStatus);
+    const resultPromise = updateTicketStatus(ticket.id, status as TicketStatus);
+
+    toast.promise(resultPromise, {
+      loading: 'Updating ticket status...',
+    });
+
+    const result = await resultPromise;
 
     if (result.status === 'ERROR') {
       toast.error(result.message);
