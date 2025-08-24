@@ -1,11 +1,19 @@
-import { LucideKanban } from 'lucide-react';
+import { LucideKanban, LucideLogOut } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from '@/features/auth/actions/sign-out';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { homePath, signInPath, signUpPath, ticketsPath } from '@/paths';
+import { SubmitButton } from './form/submit-button';
 import { ThemeSwitcher } from './theme/theme-switcher';
 import { Button, buttonVariants } from './ui/button';
 
-export function Header() {
-  const navItems = (
+export async function Header() {
+  // TODO: Because the Header component is rendered in the root layout,
+  // it opts anything within it out of static rendering. This is because
+  // it's using the cookies API.
+  const { user } = await getAuth();
+
+  const navItems = user ? (
     <>
       <Link
         href={ticketsPath()}
@@ -13,6 +21,13 @@ export function Header() {
       >
         Tickets
       </Link>
+
+      <form action={signOut}>
+        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+      </form>
+    </>
+  ) : (
+    <>
       <Link
         href={signUpPath()}
         className={buttonVariants({ variant: 'outline' })}
@@ -21,7 +36,7 @@ export function Header() {
       </Link>
       <Link
         href={signInPath()}
-        className={buttonVariants({ variant: 'outline' })}
+        className={buttonVariants({ variant: 'default' })}
       >
         Sign In
       </Link>
