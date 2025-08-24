@@ -22,16 +22,11 @@ const upsertTicketSchema = z.object({
 
 export async function upsertTicket(
   id: string | undefined,
-  actionState: ActionState,
+  _actionState: ActionState,
   formData: FormData
 ) {
   try {
-    const data = upsertTicketSchema.parse({
-      title: formData.get('title'),
-      content: formData.get('content'),
-      deadline: formData.get('deadline'),
-      bounty: formData.get('bounty'),
-    });
+    const data = upsertTicketSchema.parse(Object.fromEntries(formData));
 
     const dbData = {
       ...data,
