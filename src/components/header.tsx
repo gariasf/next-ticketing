@@ -1,17 +1,18 @@
+'use client';
+
 import { LucideKanban, LucideLogOut } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from '@/features/auth/actions/sign-out';
-import { getAuth } from '@/features/auth/queries/get-auth';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { homePath, signInPath, signUpPath, ticketsPath } from '@/paths';
 import { SubmitButton } from './form/submit-button';
 import { ThemeSwitcher } from './theme/theme-switcher';
 import { Button, buttonVariants } from './ui/button';
 
-export async function Header() {
-  // TODO: Because the Header component is rendered in the root layout,
-  // it opts anything within it out of static rendering. This is because
-  // it's using the cookies API.
-  const { user } = await getAuth();
+export function Header() {
+  const { user, isFetched } = useAuth();
+
+  if (!isFetched) return null;
 
   const navItems = user ? (
     <>
@@ -46,6 +47,7 @@ export async function Header() {
   return (
     <nav
       className="
+        animate-header-from-top
         supports-backdrop-blur:bg-background/60
         fixed left-0 right-0 top-0 z-20
         border-b bg-background/95 backdrop-blur

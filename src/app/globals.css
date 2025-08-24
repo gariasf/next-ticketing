@@ -73,7 +73,13 @@
 
   --radius-lg: var(--radius);
 
-  --radius-xl: calc(var(--radius) + 4px)
+  --radius-xl: calc(var(--radius) + 4px);
+
+  @keyframes header-from-top {
+      from  { transform: translateY(-100%) };
+      to { transform: translateY(0) };
+  }
+  --animate-header-from-top: header-from-top 0.2s ease-out;
 }
 
 :root {
