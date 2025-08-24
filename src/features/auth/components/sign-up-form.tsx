@@ -15,16 +15,30 @@ export function SignUpForm() {
   return (
     <Form action={action} actionState={actionState}>
       <Label htmlFor="username">Username</Label>
-      <Input name="username" />
+      <Input
+        name="username"
+        defaultValue={actionState.payload?.get('username') as string}
+      />
       <FieldError actionState={actionState} name="username" />
       <Label htmlFor="email">Email</Label>
-      <Input name="email" />
+      <Input
+        name="email"
+        defaultValue={actionState.payload?.get('email') as string}
+      />
       <FieldError actionState={actionState} name="email" />
       <Label htmlFor="password">Password</Label>
-      <Input name="password" type="password" />
+      <Input
+        name="password"
+        type="password"
+        defaultValue={actionState.payload?.get('password') as string}
+      />
       <FieldError actionState={actionState} name="password" />
       <Label htmlFor="confirmPassword">Confirm Password</Label>
-      <Input name="confirmPassword" type="password" />
+      <Input
+        name="confirmPassword"
+        type="password"
+        defaultValue={actionState.payload?.get('confirmPassword') as string}
+      />
       <FieldError actionState={actionState} name="confirmPassword" />
       <SubmitButton label="Sign Up" />
     </Form>
