@@ -44,6 +44,37 @@ export function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
       />
       <FieldError actionState={actionState} name="content" />
 
+      <div className="flex gap-x-2 mb-1">
+        <div className="w-1/2 flex flex-col gap-y-1">
+          <Label htmlFor="deadline">Deadline</Label>
+          <Input
+            type="date"
+            id="deadline"
+            name="deadline"
+            defaultValue={
+              (actionState.payload?.get('deadline') as string) ??
+              ticket?.deadline
+            }
+          />
+          <FieldError actionState={actionState} name="deadline" />
+        </div>
+
+        <div className="w-1/2 flex flex-col gap-y-1">
+          <Label htmlFor="bounty">Bounty ($)</Label>
+          <Input
+            type="number"
+            id="bounty"
+            name="bounty"
+            step="0.1"
+            min={0}
+            defaultValue={
+              (actionState.payload?.get('bounty') as string) ?? ticket?.bounty
+            }
+          />
+          <FieldError actionState={actionState} name="bounty" />
+        </div>
+      </div>
+
       <SubmitButton label={ticket ? 'Update' : 'Create'} />
     </Form>
   );
