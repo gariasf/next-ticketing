@@ -11,6 +11,7 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { prisma } from '@/lib/prisma';
 import { ticketsPath } from '@/paths';
+import { toCentFromDollar } from '@/utils/currency';
 
 const upsertTicketSchema = z.object({
   title: z.string().min(1).max(191),
@@ -32,12 +33,17 @@ export async function upsertTicket(
       bounty: formData.get('bounty'),
     });
 
+    const dbData = {
+      ...data,
+      bounty: toCentFromDollar(data.bounty),
+    };
+
     await prisma.ticket.upsert({
       where: {
         id: id || '',
       },
-      create: data,
-      update: data,
+      create: dbData,
+      update: dbData,
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);
