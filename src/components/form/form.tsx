@@ -6,9 +6,17 @@ import { ActionState } from './utils/to-action-state';
 type FormProps = {
   action: (payload: FormData) => void;
   actionState: ActionState;
+  onSuccess?: (actionState: ActionState) => void;
+  onError?: (actionState: ActionState) => void;
 } & PropsWithChildren;
 
-export function Form({ children, action, actionState }: FormProps) {
+export function Form({
+  children,
+  action,
+  actionState,
+  onSuccess,
+  onError,
+}: FormProps) {
   useActionFeedback(actionState, {
     onSuccess: ({ actionState }) => {
       const message = actionState.message;
@@ -16,6 +24,8 @@ export function Form({ children, action, actionState }: FormProps) {
       if (message) {
         toast.success(message);
       }
+
+      onSuccess?.(actionState);
     },
     onError: ({ actionState }) => {
       const message = actionState.message;
@@ -23,6 +33,8 @@ export function Form({ children, action, actionState }: FormProps) {
       if (message) {
         toast.error(message);
       }
+
+      onError?.(actionState);
     },
   });
 
