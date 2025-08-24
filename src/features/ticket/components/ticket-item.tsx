@@ -4,7 +4,6 @@ import {
   LucideMoreVertical,
   LucidePencil,
   LucideSquareArrowOutUpRight,
-  LucideTrash,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,6 @@ import {
 } from '@/components/ui/card';
 import { ticketEditPathFor, ticketPathFor } from '@/paths';
 import { toCurrencyFromCents } from '@/utils/currency';
-import { deleteTicket } from '../actions/delete-ticket';
 import { TICKET_ICONS } from '../constants';
 import { TicketMoreMenu } from './ticket-more-menu';
 
@@ -41,14 +39,6 @@ export function TicketItem({ ticket, isDetail }: TicketItemProps) {
         <LucidePencil />
       </Link>
     </Button>
-  );
-
-  const deleteButton = (
-    <form action={deleteTicket.bind(null, ticket.id)}>
-      <Button size="icon" variant="destructive">
-        <LucideTrash />
-      </Button>
-    </form>
   );
 
   const moreMenu = (
