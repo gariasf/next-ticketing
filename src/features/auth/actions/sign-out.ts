@@ -1,6 +1,5 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { invalidateSession } from '@/lib/lucia';
 import { signInPath } from '@/paths';
