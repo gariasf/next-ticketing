@@ -9,7 +9,7 @@ import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
-import { getAuth } from '@/features/auth/actions/get-auth';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { prisma } from '@/lib/prisma';
 import { signInPath, ticketsPath } from '@/paths';
 import { toCentFromDollar } from '@/utils/currency';
