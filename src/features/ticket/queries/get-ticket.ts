@@ -6,7 +6,11 @@ export async function getTicket(id: string) {
       id,
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          username: true,
+        },
+      },
     },
   });
 }
