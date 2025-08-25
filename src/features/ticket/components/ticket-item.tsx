@@ -14,6 +14,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { getAuth } from '@/features/auth/queries/get-auth';
+import { isOwner } from '@/features/auth/utils/is-owner';
 import { ticketEditPathFor, ticketPathFor } from '@/paths';
 import { toCurrencyFromCents } from '@/utils/currency';
 import { TICKET_ICONS } from '../constants';
@@ -32,7 +34,11 @@ interface TicketItemProps {
   isDetail?: boolean;
 }
 
-export function TicketItem({ ticket, isDetail }: TicketItemProps) {
+export async function TicketItem({ ticket, isDetail }: TicketItemProps) {
+  const { user } = await getAuth();
+
+  const isTicketOwner = isOwner(user, ticket);
+
   const detailButton = (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketPathFor(ticket.id)}>
@@ -41,15 +47,15 @@ export function TicketItem({ ticket, isDetail }: TicketItemProps) {
     </Button>
   );
 
-  const editButton = (
+  const editButton = isTicketOwner ? (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketEditPathFor(ticket.id)}>
         <LucidePencil />
       </Link>
     </Button>
-  );
+  ) : null;
 
-  const moreMenu = (
+  const moreMenu = isTicketOwner ? (
     <TicketMoreMenu
       ticket={ticket}
       trigger={
@@ -58,7 +64,7 @@ export function TicketItem({ ticket, isDetail }: TicketItemProps) {
         </Button>
       }
     />
-  );
+  ) : null;
 
   return (
     <div
