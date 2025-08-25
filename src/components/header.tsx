@@ -52,7 +52,7 @@ export function Header() {
           </Link>
         </Button>
       </div>
-      <div className="flex align-items gap-x-2">
+      <div className="flex align-items gap-x-2 items-center">
         <ThemeSwitcher />
         {navItems}
       </div>
