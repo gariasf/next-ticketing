@@ -13,9 +13,11 @@ model User {
   id String @id @default(cuid())
   username String @unique
   email String @unique
-  @@index([email])
   passwordHash String
   sessions Session[]
+  tickets Ticket[]
+
+  @@index([email])
 }
 
 model Session {
@@ -36,6 +38,10 @@ model Ticket {
   status TicketStatus @default(OPEN)
   deadline String
   bounty Int
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 enum TicketStatus {
