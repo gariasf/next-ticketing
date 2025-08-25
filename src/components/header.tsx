@@ -4,7 +4,7 @@ import { LucideKanban, LucideLogOut } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from '@/features/auth/actions/sign-out';
 import { useAuth } from '@/features/auth/hooks/use-auth';
-import { homePath, signInPath, signUpPath, ticketsPath } from '@/paths';
+import { homePath, signInPath, signUpPath } from '@/paths';
 import { SubmitButton } from './form/submit-button';
 import { ThemeSwitcher } from './theme/theme-switcher';
 import { Button, buttonVariants } from './ui/button';
@@ -12,21 +12,14 @@ import { Button, buttonVariants } from './ui/button';
 export function Header() {
   const { user, isFetched } = useAuth();
 
-  if (!isFetched) return null;
+  if (!isFetched) {
+    return null;
+  }
 
   const navItems = user ? (
-    <>
-      <Link
-        href={ticketsPath()}
-        className={buttonVariants({ variant: 'default' })}
-      >
-        Tickets
-      </Link>
-
-      <form action={signOut}>
-        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
-      </form>
-    </>
+    <form action={signOut}>
+      <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+    </form>
   ) : (
     <>
       <Link

@@ -80,6 +80,12 @@
       to { transform: translateY(0) };
   }
   --animate-header-from-top: header-from-top 0.2s ease-out;
+
+  @keyframes sidebar-from-left {
+      from  { transform: translateX(-100%) };
+      to { transform: translateX(0) };
+  }
+  --animate-sidebar-from-left: sidebar-from-left 0.2s ease-out;
 }
 
 :root {
