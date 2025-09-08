@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryState, useQueryStates } from 'nuqs';
+import { useQueryStates } from 'nuqs';
 import { sortOptions, sortParser } from '@/features/ticket/search-params';
 import {
   Select,
