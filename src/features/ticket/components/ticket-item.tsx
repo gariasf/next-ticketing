@@ -29,11 +29,7 @@ interface TicketItemProps {
   comments?: CommentWithMetadata[];
 }
 
-export async function TicketItem({
-  ticket,
-  isDetail,
-  comments,
-}: TicketItemProps) {
+export function TicketItem({ ticket, isDetail, comments }: TicketItemProps) {
   const detailButton = (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketPathFor(ticket.id)}>

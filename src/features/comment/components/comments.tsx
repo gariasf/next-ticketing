@@ -9,7 +9,7 @@ type CommentsProps = {
   comments?: CommentWithMetadata[];
 };
 
-export async function Comments({ ticketId, comments = [] }: CommentsProps) {
+export function Comments({ ticketId, comments = [] }: CommentsProps) {
   return (
     <>
       <CardCompact

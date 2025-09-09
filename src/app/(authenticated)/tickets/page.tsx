@@ -14,6 +14,7 @@ type TicketsPageProps = {
 
 export default async function TicketsPage({ searchParams }: TicketsPageProps) {
   const { user } = await getAuth();
+
   return (
     <div className="flex-1 flex flex-col gap-y-8">
       <Heading title="My Tickets" description="All your tickets in one place" />

@@ -19,11 +19,11 @@ type PaginationProps = {
   paginatedMetadata: PaginatedData<unknown>['metadata'];
 };
 
-const Pagination = ({
+export function Pagination({
   pagination,
   onPagination,
   paginatedMetadata: { count, hasNextPage },
-}: PaginationProps) => {
+}: PaginationProps) {
   const startOffset = pagination.page * pagination.size + 1;
   const endOffset = startOffset - 1 + pagination.size;
   const actualEndOffset = Math.min(endOffset, count);
@@ -92,6 +92,4 @@ const Pagination = ({
       </div>
     </div>
   );
-};
-
-export { Pagination };
+}
