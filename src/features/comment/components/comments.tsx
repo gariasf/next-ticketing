@@ -1,4 +1,10 @@
+'use client';
+
+import { useState } from 'react';
 import { CardCompact } from '@/components/card-compact';
+import { Button } from '@/components/ui/button';
+import { PaginatedData } from '@/types/pagination';
+import { getComments } from '../queries/get-comments';
 import { CommentWithMetadata } from '../types';
 import { CommentCreateForm } from './comment-create-form';
 import { CommentDeleteButton } from './comment-delete-button';
@@ -6,10 +12,20 @@ import { CommentItem } from './comment-item';
 
 type CommentsProps = {
   ticketId: string;
-  comments?: CommentWithMetadata[];
+  paginatedComments: PaginatedData<CommentWithMetadata>;
 };
 
-export function Comments({ ticketId, comments = [] }: CommentsProps) {
+export function Comments({ ticketId, paginatedComments }: CommentsProps) {
+  const [comments, setComments] = useState(paginatedComments.list);
+  const [metadata, setMetadata] = useState(paginatedComments.metadata);
+
+  const handleMore = async () => {
+    const morePaginatedComments = await getComments(ticketId, comments.length);
+    const moreComments = morePaginatedComments.list;
+    setComments([...comments, ...moreComments]);
+    setMetadata(morePaginatedComments.metadata);
+  };
+
   return (
     <>
       <CardCompact
@@ -18,7 +34,7 @@ export function Comments({ ticketId, comments = [] }: CommentsProps) {
         content={<CommentCreateForm ticketId={ticketId} />}
       />
       <div className="flex flex-col gap-y-2 ml-8">
-        {comments?.map((comment) => (
+        {comments.map((comment) => (
           <CommentItem
             key={comment.id}
             comment={comment}
@@ -29,6 +45,14 @@ export function Comments({ ticketId, comments = [] }: CommentsProps) {
             ]}
           />
         ))}
+      </div>
+
+      <div className="flex flex-col justify-center ml-8">
+        {metadata.hasNextPage && (
+          <Button variant="ghost" onClick={handleMore}>
+            More
+          </Button>
+        )}
       </div>
     </>
   );
