@@ -5,7 +5,6 @@ import {
   LucideSquareArrowOutUpRight,
 } from 'lucide-react';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -14,9 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Comments } from '@/features/comment/components/comments';
-import { CommentWithMetadata } from '@/features/comment/types';
 import { ticketEditPathFor, ticketPathFor } from '@/paths';
 import { toCurrencyFromCents } from '@/utils/currency';
 import { TICKET_ICONS } from '../constants';
@@ -26,7 +22,7 @@ import { TicketMoreMenu } from './ticket-more-menu';
 interface TicketItemProps {
   ticket: TicketWithMetadata;
   isDetail?: boolean;
-  comments?: CommentWithMetadata[];
+  comments?: React.ReactNode;
 }
 
 export function TicketItem({ ticket, isDetail, comments }: TicketItemProps) {
@@ -104,19 +100,7 @@ export function TicketItem({ ticket, isDetail, comments }: TicketItemProps) {
           )}
         </div>
       </div>
-      {isDetail ? (
-        <Suspense
-          fallback={
-            <div className="flex flex-col gap-y-4  gap-x-2">
-              <Skeleton className="h-[250px] w-full" />
-              <Skeleton className="h-[80px] ml-8" />
-              <Skeleton className="h-[80px] ml-8" />
-            </div>
-          }
-        >
-          <Comments ticketId={ticket.id} comments={comments} />
-        </Suspense>
-      ) : null}
+      {comments}
     </div>
   );
 }
