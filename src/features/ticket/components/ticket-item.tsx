@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import clsx from 'clsx';
 import {
   LucideMoreVertical,
@@ -16,25 +15,16 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getAuth } from '@/features/auth/queries/get-auth';
-import { isOwner } from '@/features/auth/utils/is-owner';
 import { Comments } from '@/features/comment/components/comments';
 import { CommentWithMetadata } from '@/features/comment/types';
 import { ticketEditPathFor, ticketPathFor } from '@/paths';
 import { toCurrencyFromCents } from '@/utils/currency';
 import { TICKET_ICONS } from '../constants';
+import { TicketWithMetadata } from '../types';
 import { TicketMoreMenu } from './ticket-more-menu';
 
 interface TicketItemProps {
-  ticket: Prisma.TicketGetPayload<{
-    include: {
-      user: {
-        select: {
-          username: true;
-        };
-      };
-    };
-  }>;
+  ticket: TicketWithMetadata;
   isDetail?: boolean;
   comments?: CommentWithMetadata[];
 }
@@ -44,10 +34,6 @@ export async function TicketItem({
   isDetail,
   comments,
 }: TicketItemProps) {
-  const { user } = await getAuth();
-
-  const isTicketOwner = isOwner(user, ticket);
-
   const detailButton = (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketPathFor(ticket.id)}>
@@ -56,7 +42,7 @@ export async function TicketItem({
     </Button>
   );
 
-  const editButton = isTicketOwner ? (
+  const editButton = ticket.isOwner ? (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketEditPathFor(ticket.id)}>
         <LucidePencil />
@@ -64,7 +50,7 @@ export async function TicketItem({
     </Button>
   ) : null;
 
-  const moreMenu = isTicketOwner ? (
+  const moreMenu = ticket.isOwner ? (
     <TicketMoreMenu
       ticket={ticket}
       trigger={
