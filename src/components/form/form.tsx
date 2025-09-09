@@ -3,20 +3,20 @@ import { toast } from 'sonner';
 import { useActionFeedback } from './hooks/use-action-feedback';
 import { ActionState } from './utils/to-action-state';
 
-type FormProps = {
+type FormProps<T = unknown> = {
   action: (payload: FormData) => void;
-  actionState: ActionState;
-  onSuccess?: (actionState: ActionState) => void;
-  onError?: (actionState: ActionState) => void;
+  actionState: ActionState<T>;
+  onSuccess?: (actionState: ActionState<T>) => void;
+  onError?: (actionState: ActionState<T>) => void;
 } & PropsWithChildren;
 
-export function Form({
+export function Form<T>({
   children,
   action,
   actionState,
   onSuccess,
   onError,
-}: FormProps) {
+}: FormProps<T>) {
   useActionFeedback(actionState, {
     onSuccess: ({ actionState }) => {
       const message = actionState.message;
