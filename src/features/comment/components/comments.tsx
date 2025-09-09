@@ -9,6 +9,7 @@ import { CommentWithMetadata } from '../types';
 import { CommentCreateForm } from './comment-create-form';
 import { CommentDeleteButton } from './comment-delete-button';
 import { CommentItem } from './comment-item';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 type CommentsProps = {
   ticketId: string;
@@ -16,30 +17,35 @@ type CommentsProps = {
 };
 
 export function Comments({ ticketId, paginatedComments }: CommentsProps) {
-  const [comments, setComments] = useState(paginatedComments.list);
-  const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
-  const handleMore = async () => {
-    const morePaginatedComments = await getComments(ticketId, metadata.cursor);
-    const moreComments = morePaginatedComments.list;
+  const queryKey = ["comments", ticketId];
+  
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey,
+      queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
+      initialPageParam: undefined as string | undefined,
+      getNextPageParam: (lastPage) =>
+        lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
+      initialData: {
+        pages: [
+          {
+            list: paginatedComments.list,
+            metadata: paginatedComments.metadata,
+          },
+        ],
+        pageParams: [undefined],
+      },
+    });
 
-    setComments([...comments, ...moreComments]);
-    setMetadata(morePaginatedComments.metadata);
-  };
+  const comments = data.pages.flatMap((page) => page.list);
 
-  function handleDeleteComment(id: string) {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== id)
-    );
-  }
+  const handleMore = () => fetchNextPage();
 
-  function handleCreateComment(comment: CommentWithMetadata | undefined) {
-    if (!comment) return;
+  const queryClient = useQueryClient();
 
-    setComments((prevComments) => [comment, ...prevComments]);
-  }
-
-  console.log(comments);
+  const handleDeleteComment = () => queryClient.invalidateQueries({ queryKey });
+  const handleCreateComment = () => queryClient.invalidateQueries({ queryKey });
 
   return (
     <>
@@ -61,12 +67,12 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
             buttons={[
               ...(comment.isOwner
                 ? [
-                    <CommentDeleteButton
-                      key="0"
-                      id={comment.id}
-                      onDeleteComment={handleDeleteComment}
-                    />,
-                  ]
+                  <CommentDeleteButton
+                    key="0"
+                    id={comment.id}
+                    onDeleteComment={handleDeleteComment}
+                  />,
+                ]
                 : []),
             ]}
           />
@@ -74,8 +80,12 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
       </div>
 
       <div className="flex flex-col justify-center ml-8">
-        {metadata.hasNextPage && (
-          <Button variant="ghost" onClick={handleMore}>
+        {hasNextPage && (
+          <Button
+            variant="ghost"
+            onClick={handleMore}
+            disabled={isFetchingNextPage}
+          >
             More
           </Button>
         )}
