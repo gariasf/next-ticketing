@@ -16,11 +16,11 @@ import {
 } from '@/components/ui/card';
 import { getAuth } from '@/features/auth/queries/get-auth';
 import { isOwner } from '@/features/auth/utils/is-owner';
+import { Comments } from '@/features/comment/components/comments';
 import { ticketEditPathFor, ticketPathFor } from '@/paths';
 import { toCurrencyFromCents } from '@/utils/currency';
 import { TICKET_ICONS } from '../constants';
 import { TicketMoreMenu } from './ticket-more-menu';
-import { Comments } from '@/features/comment/components/comments';
 
 interface TicketItemProps {
   ticket: Prisma.TicketGetPayload<{
@@ -74,7 +74,7 @@ export async function TicketItem({ ticket, isDetail }: TicketItemProps) {
         'max-w-[480px]': !isDetail,
       })}
     >
-       <div className="flex gap-x-2">
+      <div className="flex gap-x-2">
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex gap-x-2">
@@ -84,8 +84,8 @@ export async function TicketItem({ ticket, isDetail }: TicketItemProps) {
           </CardHeader>
           <CardContent>
             <span
-              className={clsx("whitespace-break-spaces", {
-                "line-clamp-3": !isDetail,
+              className={clsx('whitespace-break-spaces', {
+                'line-clamp-3': !isDetail,
               })}
             >
               {ticket.content}

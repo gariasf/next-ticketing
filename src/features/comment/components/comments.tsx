@@ -1,5 +1,5 @@
-import { getComments } from "../queries/get-comments";
-import { CommentItem } from "./comment-item";
+import { getComments } from '../queries/get-comments';
+import { CommentItem } from './comment-item';
 
 type CommentsProps = {
   ticketId: string;
@@ -15,4 +15,4 @@ export async function Comments({ ticketId }: CommentsProps) {
       ))}
     </div>
   );
-};
+}

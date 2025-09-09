@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from '@/lib/prisma';
 
 export const getComments = async (ticketId: string) => {
   return await prisma.comment.findMany({
@@ -13,7 +13,7 @@ export const getComments = async (ticketId: string) => {
       },
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
   });
 };
