@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { CardCompact } from '@/components/card-compact';
 import { Button } from '@/components/ui/button';
 import { PaginatedData } from '@/types/pagination';
@@ -9,7 +9,6 @@ import { CommentWithMetadata } from '../types';
 import { CommentCreateForm } from './comment-create-form';
 import { CommentDeleteButton } from './comment-delete-button';
 import { CommentItem } from './comment-item';
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 type CommentsProps = {
   ticketId: string;
@@ -17,10 +16,9 @@ type CommentsProps = {
 };
 
 export function Comments({ ticketId, paginatedComments }: CommentsProps) {
+  const queryKey = ['comments', ticketId];
 
-  const queryKey = ["comments", ticketId];
-  
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey,
       queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
@@ -67,12 +65,12 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
             buttons={[
               ...(comment.isOwner
                 ? [
-                  <CommentDeleteButton
-                    key="0"
-                    id={comment.id}
-                    onDeleteComment={handleDeleteComment}
-                  />,
-                ]
+                    <CommentDeleteButton
+                      key="0"
+                      id={comment.id}
+                      onDeleteComment={handleDeleteComment}
+                    />,
+                  ]
                 : []),
             ]}
           />
