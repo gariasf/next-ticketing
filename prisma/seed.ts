@@ -50,8 +50,8 @@ const tickets = [
 
 const comments = [
   { content: "First comment from DB." },
-  { content: "Second comment from DB." },
-  { content: "Third comment from DB." },
+  { content: "Second comment from DB. This one is longer than the first one. And maybe one newline\n after the first line." },
+  { content: "Third comment from DB. This one is longer than the first two. This one has multiple new lines\n\n\n and maybe one more at the end.\n\n It has a very long content that exceeds the maximum length allowed for a comment. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
 ];
 
 const seed = async () => {
@@ -84,7 +84,7 @@ const seed = async () => {
       userId: dbUsers[1].id,
     })),
   });
-  
+
   const t1 = performance.now();
   console.log(`DB Seed: Finished in ${t1 - t0}ms`);
 };
