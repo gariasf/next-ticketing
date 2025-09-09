@@ -43,10 +43,10 @@ export function useConfirmDialog({
   );
 
   const dialogTrigger = cloneElement(
-    typeof trigger === "function" ? trigger(isPending) : trigger,
+    typeof trigger === 'function' ? trigger(isPending) : trigger,
     {
       onClick: () => setOpen((state) => !state),
-    } as React.DOMAttributes<HTMLElement>,
+    } as React.DOMAttributes<HTMLElement>
   );
 
   const toastRef = useRef<string | number | null>(null);
