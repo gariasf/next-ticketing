@@ -42,9 +42,7 @@ export async function TicketList({ userId, searchParams }: TicketListProps) {
         />
       </div>
       {tickets.length ? (
-        tickets.map((ticket) => (
-          <TicketItem key={ticket.id} ticket={ticket}  />
-        ))
+        tickets.map((ticket) => <TicketItem key={ticket.id} ticket={ticket} />)
       ) : (
         <Placeholder label="No tickets found" />
       )}
