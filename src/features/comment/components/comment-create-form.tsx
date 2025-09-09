@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { FieldError } from "@/components/form/field-error";
-import { Form } from "@/components/form/form";
-import { SubmitButton } from "@/components/form/submit-button";
-import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
-import { Textarea } from "@/components/ui/textarea";
-import { createComment } from "../actions/create-comment";
+import { useActionState } from 'react';
+import { FieldError } from '@/components/form/field-error';
+import { Form } from '@/components/form/form';
+import { SubmitButton } from '@/components/form/submit-button';
+import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
+import { Textarea } from '@/components/ui/textarea';
+import { createComment } from '../actions/create-comment';
 
 type CommentCreateFormProps = {
   ticketId: string;

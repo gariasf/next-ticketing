@@ -1,10 +1,10 @@
 import { CardCompact } from '@/components/card-compact';
-import { getComments } from '../queries/get-comments';
-import { CommentItem } from './comment-item';
-import { CommentCreateForm } from './comment-create-form';
 import { getAuth } from '@/features/auth/queries/get-auth';
 import { isOwner } from '@/features/auth/utils/is-owner';
+import { getComments } from '../queries/get-comments';
+import { CommentCreateForm } from './comment-create-form';
 import { CommentDeleteButton } from './comment-delete-button';
+import { CommentItem } from './comment-item';
 
 type CommentsProps = {
   ticketId: string;
@@ -23,7 +23,7 @@ export async function Comments({ ticketId }: CommentsProps) {
       />
       <div className="flex flex-col gap-y-2 ml-8">
         {comments.map((comment) => (
-            <CommentItem
+          <CommentItem
             key={comment.id}
             comment={comment}
             buttons={[
