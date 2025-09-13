@@ -17,6 +17,7 @@ model User {
   passwordHash String
   sessions Session[]
   passwordResetTokens PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
   tickets Ticket[]
   comments Comment[]
 
@@ -41,6 +42,15 @@ model PasswordResetToken {
   @@index([userId])
 }
 
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  code      String
+  expiresAt DateTime
+  email     String
+  userId    String
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  @@index([userId])
+}
 
 model Ticket {
   id String @id @default(cuid())
