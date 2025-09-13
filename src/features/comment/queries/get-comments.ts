@@ -34,6 +34,7 @@ export const getComments = async (ticketId: string, cursor?: string) => {
   ]);
 
   const hasNextPage = commentsResult.length > take;
+
   // Remove extra taken element
   const comments = hasNextPage ? commentsResult.slice(0, -1) : commentsResult;
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CardCompact } from '@/components/card-compact';
 import { SignInForm } from '@/features/auth/components/sign-in-form';
-import { passwordResetPath, signUpPath } from '@/paths';
+import { passwordForgetPath, signUpPath } from '@/paths';
 
 export default function SignInPage() {
   return (
@@ -19,7 +19,7 @@ export default function SignInPage() {
 
             <Link
               className="text-sm text-muted-foreground"
-              href={passwordResetPath()}
+              href={passwordForgetPath()}
             >
               Forgot Password?
             </Link>

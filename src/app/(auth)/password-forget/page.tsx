@@ -1,7 +1,7 @@
 import { CardCompact } from '@/components/card-compact';
 import { PasswordForgotForm } from '@/features/password/components/password-forgot-form';
 
-export default function ResetPasswordPage() {
+export default function ForgotPasswordPage() {
   return (
     <div className="flex-1 flex flex-col justify-center items-center">
       <CardCompact

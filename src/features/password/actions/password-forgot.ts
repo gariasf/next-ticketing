@@ -7,6 +7,7 @@ import {
   toActionState,
 } from '@/components/form/utils/to-action-state';
 import { prisma } from '@/lib/prisma';
+import { generatePasswordResetLink } from '../utils/generate-password-reset-link';
 
 const passwordForgotSchema = z.object({
   email: z.email().min(1, { message: 'Is required' }).max(191),
@@ -28,6 +29,9 @@ export const passwordForgot = async (
     }
 
     // TODO: Send email with reset link
+    const passwordResetLink = await generatePasswordResetLink(user.id);
+
+    console.log(passwordResetLink);
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
