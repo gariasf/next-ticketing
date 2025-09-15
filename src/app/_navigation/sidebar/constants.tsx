@@ -31,7 +31,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Organization',
-    icon: <LucideUsers />,
+    icon: <LucideUsers className="size-5" />,
     href: organizationsPath(),
   },
 ];
