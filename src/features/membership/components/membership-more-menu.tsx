@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { MembershipRole } from "@prisma/client";
-import { LucideUserCog } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { MembershipRole } from '@prisma/client';
+import { LucideUserCog } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +12,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { updateMembershipRole } from "../actions/update-membership-role";
+} from '@/components/ui/dropdown-menu';
+import { updateMembershipRole } from '../actions/update-membership-role';
 
 type MembershipMoreMenuProps = {
   userId: string;
@@ -34,12 +34,12 @@ export function MembershipMoreMenu({
     });
 
     toast.promise(promise, {
-      loading: "Updating role...",
+      loading: 'Updating role...',
     });
 
     const result = await promise;
 
-    if (result.status === "ERROR") {
+    if (result.status === 'ERROR') {
       toast.error(result.message);
     } else {
       toast.success(result.message);
@@ -66,4 +66,4 @@ export function MembershipMoreMenu({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}

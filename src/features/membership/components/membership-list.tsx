@@ -33,13 +33,13 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
       </TableHeader>
       <TableBody>
         {memberships.map((membership) => {
-            const membershipMoreMenu = (
-              <MembershipMoreMenu
-                userId={membership.userId}
-                organizationId={membership.organizationId}
-                membershipRole={membership.membershipRole}
-              />
-            );
+          const membershipMoreMenu = (
+            <MembershipMoreMenu
+              userId={membership.userId}
+              organizationId={membership.organizationId}
+              membershipRole={membership.membershipRole}
+            />
+          );
 
           const deleteButton = (
             <MembershipDeleteButton
