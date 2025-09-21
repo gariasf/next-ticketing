@@ -15,11 +15,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { MembershipDeleteButton } from '@/features/membership/components/membership-delete-button';
 import { membershipsPathFor } from '@/paths';
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { OrganizationDeleteButton } from './organization-delete-button';
 import { OrganizationSwitchButton } from './organization-switch-button';
-import { MembershipDeleteButton } from '@/features/membership/components/membership-delete-button';
 
 type OrganizationListProps = {
   limitedAccess?: boolean;
@@ -112,6 +112,9 @@ export async function OrganizationList({
                 )}
               </TableCell>
               <TableCell>{organization._count.memberships}</TableCell>
+              <TableCell>
+                {organization.membershipByUser.membershipRole}
+              </TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>
