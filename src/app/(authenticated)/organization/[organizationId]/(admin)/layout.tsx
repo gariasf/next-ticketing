@@ -1,4 +1,4 @@
-import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
+import { getAdminOrRedirect } from '@/features/membership/queries/get-admin-or-redirect';
 
 export default async function AdminLayout({
   children,
