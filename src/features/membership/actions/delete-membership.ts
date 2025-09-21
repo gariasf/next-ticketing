@@ -1,12 +1,12 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+import { setCookieByKey } from '@/actions/cookies';
 import { toActionState } from '@/components/form/utils/to-action-state';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { prisma } from '@/lib/prisma';
-import { getMemberships } from '../queries/get-memberships';
-import { revalidatePath } from 'next/cache';
-import { setCookieByKey } from '@/actions/cookies';
 import { membershipsPathFor } from '@/paths';
+import { getMemberships } from '../queries/get-memberships';
 
 export const deleteMembership = async ({
   userId,
@@ -28,27 +28,27 @@ export const deleteMembership = async ({
     );
   }
 
-   // Check if membership exists
-   const targetMembership = (memberships ?? []).find(
+  // Check if membership exists
+  const targetMembership = (memberships ?? []).find(
     (membership) => membership.userId === userId
   );
 
   if (!targetMembership) {
-    return toActionState("ERROR", "Membership not found");
+    return toActionState('ERROR', 'Membership not found');
   }
 
   // Check if user is deleting last admin
   const adminMemberships = (memberships ?? []).filter(
-    (membership) => membership.membershipRole === "ADMIN"
+    (membership) => membership.membershipRole === 'ADMIN'
   );
 
-  const removesAdmin = targetMembership.membershipRole === "ADMIN";
+  const removesAdmin = targetMembership.membershipRole === 'ADMIN';
   const isLastAdmin = adminMemberships.length <= 1;
 
   if (removesAdmin && isLastAdmin) {
     return toActionState(
-      "ERROR",
-      "You cannot delete the last admin of an organization"
+      'ERROR',
+      'You cannot delete the last admin of an organization'
     );
   }
 
@@ -58,15 +58,14 @@ export const deleteMembership = async ({
   );
 
   const isMyself = user.id === userId;
-  const isAdmin = myMembership?.membershipRole === "ADMIN";
+  const isAdmin = myMembership?.membershipRole === 'ADMIN';
 
   if (!isMyself && !isAdmin) {
     return toActionState(
-      "ERROR",
-      "You can only delete memberships as an admin"
+      'ERROR',
+      'You can only delete memberships as an admin'
     );
   }
-
 
   await prisma.membership.delete({
     where: {
@@ -80,9 +79,9 @@ export const deleteMembership = async ({
   revalidatePath(membershipsPathFor(organizationId));
 
   await setCookieByKey(
-    "toast",
+    'toast',
     isMyself
-      ? "You have left the organization"
-      : "The membership has been deleted"
+      ? 'You have left the organization'
+      : 'The membership has been deleted'
   );
 };
