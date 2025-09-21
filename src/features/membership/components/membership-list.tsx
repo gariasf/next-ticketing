@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { LucideBan, LucideCheck } from 'lucide-react';
 import {
   Table,
@@ -9,7 +10,6 @@ import {
 } from '@/components/ui/table';
 import { getMemberships } from '../queries/get-memberships';
 import { MembershipDeleteButton } from './membership-delete-button';
-import { format } from 'date-fns';
 
 type MembershipListProps = {
   organizationId: string;
@@ -43,7 +43,9 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
             <TableRow key={membership.userId}>
               <TableCell>{membership.user.username}</TableCell>
               <TableCell>{membership.user.email}</TableCell>
-              <TableCell>{format(membership.joinedAt, "yyyy-MM-dd, HH:mm")}</TableCell>
+              <TableCell>
+                {format(membership.joinedAt, 'yyyy-MM-dd, HH:mm')}
+              </TableCell>
               <TableCell>
                 {membership.user.emailVerified ? (
                   <LucideCheck />
