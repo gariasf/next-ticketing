@@ -17,6 +17,8 @@ import {
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { OrganizationDeleteButton } from './organization-delete-button';
 import { OrganizationSwitchButton } from './organization-switch-button';
+import Link from 'next/link';
+import { membershipsPathFor } from '@/paths';
 
 type OrganizationListProps = {
   limitedAccess?: boolean;
@@ -64,9 +66,11 @@ export async function OrganizationList({
           );
 
           const detailButton = (
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" asChild>
+            <Link href={membershipsPathFor(organization.id)}>
               <LucideArrowUpRightFromSquare className="w-4 h-4" />
-            </Button>
+            </Link>
+          </Button>
           );
 
           const editButton = (

@@ -18,7 +18,7 @@ export function RedirectToast() {
     };
 
     showCookieToast();
-    // Note: The template.tsx file does not re-render reliably on every route change. This is a known bug in Next.js. These issues can be followed the issue here and here.
+    // Note: The template.tsx file does not re-render reliably on every route change. This is a known bug in Next.js.
     // As a workaround, we use the pathname here to trigger its effect on every route change.
   }, [pathname]);
 
