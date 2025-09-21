@@ -19,6 +19,7 @@ import { membershipsPathFor } from '@/paths';
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { OrganizationDeleteButton } from './organization-delete-button';
 import { OrganizationSwitchButton } from './organization-switch-button';
+import { MembershipDeleteButton } from '@/features/membership/components/membership-delete-button';
 
 type OrganizationListProps = {
   limitedAccess?: boolean;
@@ -79,6 +80,13 @@ export async function OrganizationList({
             </Button>
           );
 
+          const leaveButton = (
+            <MembershipDeleteButton
+              organizationId={organization.id}
+              userId={organization.membershipByUser.userId}
+            />
+          );
+
           const deleteButton = (
             <OrganizationDeleteButton organizationId={organization.id} />
           );
@@ -89,6 +97,7 @@ export async function OrganizationList({
               {limitedAccess ? null : detailButton}
               {limitedAccess ? null : editButton}
               {limitedAccess ? null : deleteButton}
+              {limitedAccess ? null : leaveButton}
             </>
           );
 

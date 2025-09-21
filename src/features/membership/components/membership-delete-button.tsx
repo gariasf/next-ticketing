@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { LucideLoaderCircle, LucideLogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useConfirmDialog } from "@/components/confirm-dialog";
-import { Button } from "@/components/ui/button";
-import { deleteMembership } from "../actions/delete-membership";
+import { LucideLoaderCircle, LucideLogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useConfirmDialog } from '@/components/confirm-dialog';
+import { Button } from '@/components/ui/button';
+import { deleteMembership } from '../actions/delete-membership';
 
 type MembershipDeleteButtonProps = {
   userId: string;
@@ -43,4 +43,4 @@ export function MembershipDeleteButton({
       {deleteButton}
     </>
   );
-};
+}

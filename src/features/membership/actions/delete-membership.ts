@@ -1,9 +1,9 @@
-"use server";
+'use server';
 
-import { toActionState } from "@/components/form/utils/to-action-state";
-import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { prisma } from "@/lib/prisma";
-import { getMemberships } from "../queries/get-memberships";
+import { toActionState } from '@/components/form/utils/to-action-state';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
+import { prisma } from '@/lib/prisma';
+import { getMemberships } from '../queries/get-memberships';
 
 export const deleteMembership = async ({
   userId,
@@ -20,8 +20,8 @@ export const deleteMembership = async ({
 
   if (isLastMembership) {
     return toActionState(
-      "ERROR",
-      "You cannot delete the last membership of an organization"
+      'ERROR',
+      'You cannot delete the last membership of an organization'
     );
   }
 
@@ -34,5 +34,5 @@ export const deleteMembership = async ({
     },
   });
 
-  return toActionState("SUCCESS", "The membership has been deleted");
+  return toActionState('SUCCESS', 'The membership has been deleted');
 };
