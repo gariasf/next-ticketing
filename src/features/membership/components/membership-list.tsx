@@ -1,4 +1,4 @@
-import { LucideBan, LucideCheck } from "lucide-react";
+import { LucideBan, LucideCheck } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -6,8 +6,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { getMemberships } from "../queries/get-memberships";
+} from '@/components/ui/table';
+import { getMemberships } from '../queries/get-memberships';
+import { MembershipDeleteButton } from './membership-delete-button';
 
 type MembershipListProps = {
   organizationId: string;
@@ -28,7 +29,12 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
       </TableHeader>
       <TableBody>
         {memberships.map((membership) => {
-          const buttons = <></>; // TODO
+          const deleteButton = (
+            <MembershipDeleteButton
+              organizationId={membership.organizationId}
+              userId={membership.userId}
+            />
+          );
 
           return (
             <TableRow key={membership.userId}>
@@ -42,7 +48,7 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
                 )}
               </TableCell>
               <TableCell className="flex justify-end gap-x-2">
-                {buttons}
+                {deleteButton}
               </TableCell>
             </TableRow>
           );

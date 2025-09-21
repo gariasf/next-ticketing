@@ -1,7 +1,7 @@
-import { Suspense } from "react";
-import { Heading } from "@/components/heading";
-import { Spinner } from "@/components/spinner";
-import { MembershipList } from "@/features/membership/components/membership-list";
+import { Suspense } from 'react';
+import { Heading } from '@/components/heading';
+import { Spinner } from '@/components/spinner';
+import { MembershipList } from '@/features/membership/components/membership-list';
 
 type MembershipsPageProps = {
   params: Promise<{
@@ -9,7 +9,9 @@ type MembershipsPageProps = {
   }>;
 };
 
-export default async function MembershipsPage ({ params }: MembershipsPageProps) {
+export default async function MembershipsPage({
+  params,
+}: MembershipsPageProps) {
   const { organizationId } = await params;
 
   return (
@@ -24,4 +26,4 @@ export default async function MembershipsPage ({ params }: MembershipsPageProps)
       </Suspense>
     </div>
   );
-};
+}

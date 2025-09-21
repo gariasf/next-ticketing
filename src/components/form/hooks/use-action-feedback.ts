@@ -11,15 +11,15 @@ interface UseActionFeedbackOptions<T> {
 }
 
 export function useActionFeedback<T>(
-  actionState: ActionState<T>,
+  actionState: ActionState<T> | undefined,
   options: UseActionFeedbackOptions<T>
 ) {
-  const prevTimestamp = useRef<number | null>(actionState.timestamp);
-
-  const isUpdate = prevTimestamp.current !== actionState.timestamp;
+  const prevTimestamp = useRef(actionState?.timestamp);
+  const isUpdate = prevTimestamp.current !== actionState?.timestamp;
 
   useEffect(() => {
     if (!isUpdate) return;
+    if (!actionState) return;
 
     if (actionState.status === 'SUCCESS') {
       options.onSuccess?.({ actionState });
