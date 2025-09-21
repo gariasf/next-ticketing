@@ -27,7 +27,7 @@ export async function upsertTicket(
   _actionState: ActionState,
   formData: FormData
 ) {
-  const { user } = await getAuthOrRedirect();
+  const { user, activeOrganization } = await getAuthOrRedirect();
 
   if (id) {
     const ticket = await prisma.ticket.findUnique({
@@ -55,7 +55,7 @@ export async function upsertTicket(
         id: id || '',
       },
       update: dbData,
-      create: dbData,
+      create: { ...dbData, organizationId: activeOrganization!.id },
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);
