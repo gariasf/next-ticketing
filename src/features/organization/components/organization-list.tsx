@@ -42,6 +42,7 @@ export async function OrganizationList({
           <TableHead>Name</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Members</TableHead>
+          <TableHead>My Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>

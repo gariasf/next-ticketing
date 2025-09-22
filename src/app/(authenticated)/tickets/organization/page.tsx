@@ -11,7 +11,7 @@ type TicketsByOrganizationPageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-export async function TicketsByOrganizationPage({
+export default async function TicketsByOrganizationPage({
   searchParams,
 }: TicketsByOrganizationPageProps) {
   return (

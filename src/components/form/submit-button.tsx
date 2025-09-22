@@ -5,7 +5,7 @@ import { useFormStatus } from 'react-dom';
 import { Button, ButtonProps } from '../ui/button';
 
 type SubmitButtonProps = {
-  label: string;
+  label?: string;
   icon?: React.ReactElement;
   variant?: ButtonProps['variant'];
   size?: ButtonProps['size'];
