@@ -11,7 +11,7 @@ export type InvitationCreateEventArgs = {
   };
 };
 
-export const invitationCreatedEvent = inngest.createFunction(
+export const invitationCreatedFunction = inngest.createFunction(
   { id: 'invitation-created' },
   { event: 'app/invitation.created' },
   async ({ event }) => {
