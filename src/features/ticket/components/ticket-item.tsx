@@ -22,10 +22,16 @@ import { TicketMoreMenu } from './ticket-more-menu';
 interface TicketItemProps {
   ticket: TicketWithMetadata;
   isDetail?: boolean;
+  attachments?: React.ReactNode;
   comments?: React.ReactNode;
 }
 
-export function TicketItem({ ticket, isDetail, comments }: TicketItemProps) {
+export function TicketItem({
+  ticket,
+  isDetail,
+  attachments,
+  comments,
+}: TicketItemProps) {
   const detailButton = (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketPathFor(ticket.id)}>
@@ -100,6 +106,7 @@ export function TicketItem({ ticket, isDetail, comments }: TicketItemProps) {
           )}
         </div>
       </div>
+      {attachments}
       {comments}
     </div>
   );
