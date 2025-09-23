@@ -10,6 +10,7 @@ export const signInPath = () => '/sign-in';
 export const passwordForgetPath = () => '/password-forget';
 export const passwordResetPath = () => '/password-reset';
 export const emailVerificationPath = () => '/email-verification';
+export const emailInvitationPath = () => '/email-invitation';
 
 export const onboardingPath = () => '/onboarding';
 export const selectActiveOrganizationPath = () =>

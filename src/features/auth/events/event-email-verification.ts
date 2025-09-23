@@ -9,7 +9,7 @@ export type EmailVerificationEventArgs = {
   };
 };
 
-export const emailVerificationEvent = inngest.createFunction(
+export const emailVerificationFunction = inngest.createFunction(
   { id: 'email-verification' },
   { event: 'app/auth.sign-up' },
   async ({ event }) => {
