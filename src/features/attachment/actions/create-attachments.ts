@@ -1,6 +1,6 @@
 'use server';
 
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import {
@@ -55,6 +55,9 @@ export const createAttachments = async (
     return toActionState('ERROR', 'Not the owner of this ticket');
   }
 
+  const attachments = [];
+  const uploadedKeys: string[] = [];
+
   try {
     const { files } = createAttachmentsSchema.parse({
       files: formData.getAll('files'),
@@ -69,22 +72,48 @@ export const createAttachments = async (
           ticketId: ticket.id,
         },
       });
+      const key = generateS3Key({
+        organizationId: ticket.organizationId,
+        ticketId: ticket.id,
+        fileName: file.name,
+        attachmentId: attachment.id,
+      });
 
       await s3.send(
         new PutObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME,
-          Key: generateS3Key({
-            organizationId: ticket.organizationId,
-            ticketId: ticket.id,
-            fileName: file.name,
-            attachmentId: attachment.id,
-          }),
+          Key: key,
           Body: buffer,
           ContentType: file.type,
         })
       );
+
+      attachments.push(attachment);
+      uploadedKeys.push(key);
     }
   } catch (error) {
+    // Rollback S3 uploads
+    await Promise.all(
+      uploadedKeys.map(
+        (key) =>
+          s3
+            .send(
+              new DeleteObjectCommand({
+                Key: key,
+                Bucket: process.env.AWS_BUCKET_NAME,
+              })
+            )
+            .catch(() => null) // Don’t crash during rollback
+      )
+    );
+
+    // Rollback DB entries
+    await Promise.all(
+      attachments.map((a) =>
+        prisma.attachment.delete({ where: { id: a.id } }).catch(() => null)
+      )
+    );
+
     return fromErrorToActionState(error);
   }
 
