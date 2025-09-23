@@ -15,16 +15,34 @@ model Organization {
   name        String
   memberships Membership[]
   tickets     Ticket[]
+  invitations Invitation[]
+}
+
+model Invitation {
+  createdAt                DateTime     @default(now())
+  updatedAt                DateTime     @updatedAt
+  tokenHash                String       @unique
+  email                    String
+  organization             Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId           String
+  invitedByUser            User?        @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
+  invitedByUserId          String?
+  membership               Membership?  @relation(fields: [membershipOrganizationId, membershipUserId], references: [organizationId, userId])
+  membershipOrganizationId String?
+  membershipUserId         String?
+
+  @@index([organizationId])
 }
 
 model Membership {
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
-  joinedAt       DateTime     @default(now())
-  isActive Boolean
+  joinedAt       DateTime       @default(now())
+  isActive       Boolean
   membershipRole MembershipRole @default(MEMBER)
+  invitesByUser  Invitation[]
 
   canDeleteTicket Boolean @default(true)
 
@@ -50,6 +68,7 @@ model User {
   tickets                 Ticket[]
   comments                Comment[]
   memberships             Membership[]
+  Invitation              Invitation[]
 
   @@index([email])
 }
