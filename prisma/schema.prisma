@@ -19,30 +19,34 @@ model Organization {
 }
 
 model Invitation {
-  createdAt                DateTime     @default(now())
-  updatedAt                DateTime     @updatedAt
-  tokenHash                String       @unique
-  email                    String
-  organization             Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId           String
-  invitedByUser            User?        @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
-  invitedByUserId          String?
-  membership               Membership?  @relation(fields: [membershipOrganizationId, membershipUserId], references: [organizationId, userId])
-  membershipOrganizationId String?
-  membershipUserId         String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  tokenHash       String           @unique
+  email           String
+  organization    Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId  String
+  invitedByUser   User?            @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
+  invitedByUserId String?
+  status          InvitationStatus @default(PENDING)
 
+  @@id(name: "invitationId", [organizationId, email])
   @@index([organizationId])
 }
 
+enum InvitationStatus {
+  PENDING
+  ACCEPTED_WITHOUT_ACCOUNT
+}
+
 model Membership {
-  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
+
   joinedAt       DateTime       @default(now())
   isActive       Boolean
   membershipRole MembershipRole @default(MEMBER)
-  invitesByUser  Invitation[]
 
   canDeleteTicket Boolean @default(true)
 
@@ -50,6 +54,7 @@ model Membership {
   @@index([organizationId])
   @@index([userId])
 }
+
 
 enum MembershipRole {
   ADMIN
@@ -65,10 +70,10 @@ model User {
   sessions                Session[]
   passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
+  invitesByUser           Invitation[]
+  memberships             Membership[]
   tickets                 Ticket[]
   comments                Comment[]
-  memberships             Membership[]
-  Invitation              Invitation[]
 
   @@index([email])
 }
