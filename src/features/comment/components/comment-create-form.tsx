@@ -23,14 +23,18 @@ export function CommentCreateForm({
   ticketId,
   onCreateComment,
 }: CommentCreateFormProps) {
-  const createCommentWithPromise = createComment<
-    CommentWithMetadata | undefined
-  >;
+  const boundCreateComment = async (
+    prevState: ActionState<CommentWithMetadata | undefined>,
+    formData: FormData
+  ): Promise<ActionState<CommentWithMetadata | undefined>> => {
+    const result = await createComment(ticketId, prevState, formData);
+    return result as ActionState<CommentWithMetadata | undefined>;
+  };
 
-  const [actionState, action] = useActionState<
-    ActionState<CommentWithMetadata | undefined>,
-    FormData
-  >(createCommentWithPromise.bind(null, ticketId), EMPTY_ACTION_STATE);
+  const [actionState, action] = useActionState(
+    boundCreateComment,
+    EMPTY_ACTION_STATE
+  );
 
   const handleSuccess = (
     actionState: ActionState<CommentWithMetadata | undefined>

@@ -5,34 +5,30 @@ import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
+import { AttachmentSubjectDTO } from '@/features/attachment/dto/attachment-subject-dto';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { isOwner } from '@/features/auth/utils/is-owner';
 import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { ticketPathFor } from '@/paths';
-import { isComment, isTicket } from '../types';
-import { getOrganizationIdByAttachment } from '../utils/helpers';
+import * as attachmentData from '../data';
 
 export const deleteAttachment = async (id: string) => {
   const { user } = await getAuthOrRedirect();
 
-  const attachment = await prisma.attachment.findUniqueOrThrow({
-    where: {
-      id,
-    },
-    include: {
-      ticket: true,
-      comment: {
-        include: {
-          ticket: true,
-        },
-      },
-    },
-  });
+  const attachment = await attachmentData.getAttachment(id);
 
-  const subject = attachment.ticket ?? attachment.comment;
+  let subject;
+  switch (attachment?.entity) {
+    case 'TICKET':
+      subject = AttachmentSubjectDTO.fromTicket(attachment.ticket, user.id);
+      break;
+    case 'COMMENT':
+      subject = AttachmentSubjectDTO.fromComment(attachment.comment, user.id);
+      break;
+  }
 
-  if (!subject) {
+  if (!subject || !attachment) {
     return toActionState('ERROR', 'Subject not found');
   }
 
@@ -47,17 +43,12 @@ export const deleteAttachment = async (id: string) => {
       },
     });
 
-    const organizationId = getOrganizationIdByAttachment(
-      attachment.entity,
-      subject
-    );
-
     await inngest.send({
       name: 'app/attachment.deleted',
       data: {
-        organizationId,
-        entityId: subject.id,
         entity: attachment.entity,
+        organizationId: subject.organizationId,
+        entityId: subject.entityId,
         fileName: attachment.name,
         attachmentId: attachment.id,
       },
@@ -66,16 +57,12 @@ export const deleteAttachment = async (id: string) => {
     return fromErrorToActionState(error);
   }
 
-  switch (attachment.entity) {
+  switch (subject.entity) {
     case 'TICKET':
-      if (isTicket(subject)) {
-        revalidatePath(ticketPathFor(subject.id));
-      }
+      revalidatePath(ticketPathFor(subject.ticketId));
       break;
     case 'COMMENT': {
-      if (isComment(subject)) {
-        revalidatePath(ticketPathFor(subject.ticket.id));
-      }
+      revalidatePath(ticketPathFor(subject.ticketId));
       break;
     }
   }

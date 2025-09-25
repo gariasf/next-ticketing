@@ -13,7 +13,6 @@ import { isOwner } from '@/features/auth/utils/is-owner';
 import { ticketPathFor } from '@/paths';
 import { filesSchema } from '../schema/files';
 import * as attachmentService from '../service';
-import { isComment, isTicket } from '../types';
 
 const createAttachmentsSchema = z.object({
   files: filesSchema,
@@ -33,7 +32,8 @@ export const createAttachments = async (
 
   const subject = await attachmentService.getAttachmentSubject(
     entityId,
-    entity
+    entity,
+    user
   );
 
   if (!subject) {
@@ -59,16 +59,12 @@ export const createAttachments = async (
     return fromErrorToActionState(error);
   }
 
-  switch (entity) {
+  switch (subject.entity) {
     case 'TICKET':
-      if (isTicket(subject)) {
-        revalidatePath(ticketPathFor(subject.id));
-      }
+      revalidatePath(ticketPathFor(subject.ticketId));
       break;
     case 'COMMENT': {
-      if (isComment(subject)) {
-        revalidatePath(ticketPathFor(subject.ticket.id));
-      }
+      revalidatePath(ticketPathFor(subject.ticketId));
       break;
     }
   }
