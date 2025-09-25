@@ -10,7 +10,7 @@ import {
 import { getAdminOrRedirect } from '@/features/membership/queries/get-admin-or-redirect';
 import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
-import { invitationsPath } from '@/paths';
+import { invitationsPathFor } from '@/paths';
 import { generateInvitationLink } from '../utils/generate-invitation-link';
 
 const createInvitationSchema = z.object({
@@ -64,7 +64,7 @@ export const createInvitation = async (
     return fromErrorToActionState(error);
   }
 
-  revalidatePath(invitationsPath(organizationId));
+  revalidatePath(invitationsPathFor(organizationId));
 
   return toActionState('SUCCESS', 'User invited to organization');
 };

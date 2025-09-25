@@ -3,7 +3,8 @@
 import { useParams, usePathname } from 'next/navigation';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import {
-  invitationsPath,
+  credentialsPathFor,
+  invitationsPathFor,
   membershipsPathFor,
   organizationsPath,
 } from '@/paths';
@@ -15,7 +16,10 @@ export function OrganizationBreadcrumbs() {
   const title = {
     memberships: 'Memberships' as const,
     invitations: 'Invitations' as const,
-  }[pathName.split('/').at(-1) as 'memberships' | 'invitations'];
+    credentials: 'Credentials' as const,
+  }[
+    pathName.split('/').at(-1) as 'memberships' | 'invitations' | 'credentials'
+  ];
 
   return (
     <Breadcrumbs
@@ -30,7 +34,11 @@ export function OrganizationBreadcrumbs() {
             },
             {
               title: 'Invitations',
-              href: invitationsPath(params.organizationId),
+              href: invitationsPathFor(params.organizationId),
+            },
+            {
+              title: 'Credentials',
+              href: credentialsPathFor(params.organizationId),
             },
           ],
         },
