@@ -12,7 +12,9 @@ import { filesSchema } from '@/features/attachment/schema/files';
 import * as attachmentService from '@/features/attachment/service';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import * as commentData from '@/features/comment/data';
+import * as ticketData from '@/features/ticket/data';
 import { ticketPathFor } from '@/paths';
+import { findTicketIdsFromText } from '@/utils/find-ids-from-text';
 
 const createCommentSchema = z.object({
   content: z.string().min(1).max(1024),
@@ -52,6 +54,11 @@ export async function createComment<T = unknown>(
       entityId: comment.id,
       files,
     });
+
+    await ticketData.connectReferencedTickets(
+      ticketId,
+      findTicketIdsFromText('tickets', content)
+    );
   } catch (error) {
     return fromErrorToActionState<T>(error);
   }

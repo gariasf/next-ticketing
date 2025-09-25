@@ -23,6 +23,7 @@ interface TicketItemProps {
   ticket: TicketWithMetadata;
   isDetail?: boolean;
   attachments?: React.ReactNode;
+  referencedTickets?: React.ReactNode;
   comments?: React.ReactNode;
 }
 
@@ -30,6 +31,7 @@ export function TicketItem({
   ticket,
   isDetail,
   attachments,
+  referencedTickets,
   comments,
 }: TicketItemProps) {
   const detailButton = (
@@ -107,6 +109,7 @@ export function TicketItem({
         </div>
       </div>
       {attachments}
+      {referencedTickets}
       {comments}
     </div>
   );
