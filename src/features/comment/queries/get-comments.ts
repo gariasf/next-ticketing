@@ -25,6 +25,7 @@ export const getComments = async (ticketId: string, cursor?: string) => {
             username: true,
           },
         },
+        attachments: true,
       },
       orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
     }),

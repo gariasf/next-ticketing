@@ -22,7 +22,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Our Tickets',
-    icon: <LucideBookCopy />,
+    icon: <LucideBookCopy className="size-5" />,
     href: ticketsByOrganizationPath(),
   },
   {

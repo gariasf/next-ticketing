@@ -7,9 +7,13 @@ import { deleteAttachment } from '../actions/delete-attachment';
 
 type AttachmentDeleteButtonProps = {
   id: string;
+  onDeleteAttachment?: (id: string) => void;
 };
 
-export function AttachmentDeleteButton({ id }: AttachmentDeleteButtonProps) {
+export function AttachmentDeleteButton({
+  id,
+  onDeleteAttachment,
+}: AttachmentDeleteButtonProps) {
   const [deleteButton, deleteDialog] = useConfirmDialog({
     action: deleteAttachment.bind(null, id),
     trigger: (isLoading) =>
@@ -22,6 +26,7 @@ export function AttachmentDeleteButton({ id }: AttachmentDeleteButtonProps) {
           <LucideTrash className="w-4 h-4" />
         </Button>
       ),
+    onSuccess: () => onDeleteAttachment?.(id),
   });
 
   return (
