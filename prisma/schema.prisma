@@ -112,6 +112,7 @@ model PasswordResetToken {
 model EmailVerificationToken {
   id        String   @id @default(cuid())
   code      String
+  createdAt DateTime @default(now())
   expiresAt DateTime
   email     String
   userId    String
