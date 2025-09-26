@@ -1,4 +1,4 @@
-import { LucideCheck } from 'lucide-react';
+import { LucideBadgeCheck, LucideCheck } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -9,14 +9,20 @@ import {
 } from '@/components/ui/card';
 import { stripe } from '@/lib/stripe';
 import { toCurrencyFromCents } from '@/utils/currency';
+import { getStripeCustomerByOrganization } from '../queries/get-stripe-customer';
 import { CheckoutSessionForm } from './checkout-session-form';
 
 type PricesProps = {
   organizationId: string | null | undefined;
   productId: string;
+  activePriceId: string | null | undefined;
 };
 
-async function Prices({ organizationId, productId }: PricesProps) {
+async function Prices({
+  organizationId,
+  productId,
+  activePriceId,
+}: PricesProps) {
   const prices = await stripe.prices.list({
     active: true,
     product: productId,
@@ -29,6 +35,7 @@ async function Prices({ organizationId, productId }: PricesProps) {
           key={price.id}
           organizationId={organizationId}
           priceId={price.id}
+          activePriceId={activePriceId}
         >
           <span className="font-bold text-lg">
             {toCurrencyFromCents(price.unit_amount || 0, price.currency)}
@@ -45,6 +52,13 @@ type ProductsProps = {
 };
 
 export async function Products({ organizationId }: ProductsProps) {
+  const stripeCustomer = await getStripeCustomerByOrganization(organizationId);
+
+  const subscriptionStatus = stripeCustomer?.subscriptionStatus;
+  const activeSubscription = subscriptionStatus === 'active';
+  const activeProductId = activeSubscription ? stripeCustomer?.productId : null;
+  const activePriceId = activeSubscription ? stripeCustomer?.priceId : null;
+
   const products = await stripe.products.list({
     active: true,
   });
@@ -54,7 +68,10 @@ export async function Products({ organizationId }: ProductsProps) {
       {products.data.map((product) => (
         <Card key={product.id}>
           <CardHeader>
-            <CardTitle>{product.name}</CardTitle>
+            <CardTitle className="flex justify-between">
+              {product.name}
+              {activeProductId === product.id ? <LucideBadgeCheck /> : null}
+            </CardTitle>
             <CardDescription>{product.description}</CardDescription>
           </CardHeader>
           <CardContent>
@@ -65,7 +82,11 @@ export async function Products({ organizationId }: ProductsProps) {
             ))}
           </CardContent>
           <CardFooter>
-            <Prices organizationId={organizationId} productId={product.id} />
+            <Prices
+              organizationId={organizationId}
+              productId={product.id}
+              activePriceId={activePriceId}
+            />
           </CardFooter>
         </Card>
       ))}
