@@ -31,3 +31,7 @@ export const accountPasswordPath = () => '/account/password';
 
 export const attachmentDownloadPath = (attachmentId: string) =>
   `/api/aws/s3/attachments/${attachmentId}`;
+
+export const pricingPath = () => '/pricing';
+export const subscriptionPathFor = (organizationId: string) =>
+  `/organization/${organizationId}/subscription`;
