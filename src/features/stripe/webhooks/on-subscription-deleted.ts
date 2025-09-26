@@ -1,18 +1,9 @@
 import Stripe from 'stripe';
-import { prisma } from '@/lib/prisma';
+import * as stripeData from '@/features/stripe/data';
 
 export const onSubscriptionDeleted = async (
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
+  eventAt: number
 ) => {
-  await prisma.stripeCustomer.update({
-    where: {
-      customerId: subscription.customer as string,
-    },
-    data: {
-      subscriptionId: null,
-      subscriptionStatus: null,
-      productId: null,
-      priceId: null,
-    },
-  });
+  await stripeData.deleteStripeSubscription(subscription, eventAt);
 };
